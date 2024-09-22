@@ -27,18 +27,38 @@ function getHumanChoice() {
     }
 }
 
+let humanScore = 0
+let computerScore = 0
+
 function playRound(humanChoice, computerChoice) {
+    divChoices.textContent = "";
     if (humanChoice == computerChoice) {
-        return "Tie!\nhuman: " + humanScore + " computer: " + computerScore
     }
     else if (winner(humanChoice, computerChoice) == "a") {
         humanScore += 1;
-        return "Human wins!\nhuman: " + humanScore + " computer: " + computerScore
+        divHuman.textContent = "Human: " + humanScore;
+        divComputer.textContent = "Computer: " + computerScore;
+
     }
     else if (winner(humanChoice, computerChoice) == "b") {
         computerScore += 1
-        return "Computer wins!\nhuman: " + humanScore + " computer: " + computerScore
+        divHuman.textContent = "Human: " + humanScore;
+        divComputer.textContent = "Computer: " + computerScore;
     }
+
+    divChoices.textContent = "You chose " + humanChoice + " and the computer chose " + computerChoice;
+
+    if (humanScore == 5) {
+        humanScore = 0;
+        computerScore = 0;
+        return alert("Game over! You win!")
+    }
+    else if (computerScore == 5) {
+        humanScore = 0;
+        computerScore = 0;
+        return alert("Game over! Computer wins!")
+    }
+    else {return}
 }
 
 function winner(a, b) {
@@ -52,37 +72,15 @@ function winner(a, b) {
     }
 }
 
-function playGame() {
-    humanScore = 0;
-    computerScore = 0;
-    for(let i = 0; i<5; i++) {
-        const human = getHumanChoice();
-        const computer = getComputerChoice();
-        console.log(playRound(human, computer));
-        console.log(human);
-        console.log(computer);
-    }
 
-    if (humanScore == computerScore) {
-        return "Game over! It's a tie!";
-    }
-    else if (humanScore > computerScore) {
-        return "Game over! Human wins!";
-    }
-    else {
-        return "Game over! Computer wins!";
-    }
-}
+const buttonRock = document.querySelector("#rock");
+const buttonPaper = document.querySelector("#paper");
+const buttonScissors = document.querySelector("#scissors");
 
-console.log(playGame());
+const divHuman = document.querySelector(".humanScore");
+const divComputer = document.querySelector(".computerScore");
+const divChoices = document.querySelector(".choices");
 
-let count = 1;
-while (count == 1) {
-    let newGame = prompt("Another game? Yes/No");
-    if (newGame == "Yes") {
-        console.log(playGame());
-    }
-    else {
-        count = 0
-    }
-}
+buttonRock.addEventListener("click", () => playRound("rock", getComputerChoice()));
+buttonPaper.addEventListener("click", () => playRound("paper", getComputerChoice()));
+buttonScissors.addEventListener("click", () => playRound("scissors", getComputerChoice()));
